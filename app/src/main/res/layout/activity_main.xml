@@ -8,7 +8,32 @@
     android:layout_margin="5dp"
     tools:context=".MainActivity">
 
-    <SearchView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="620dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/isiSearch"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:hint="Search">
+        </EditText>
+        <ImageButton
+            android:layout_width="49dp"
+            android:layout_height="49dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:onClick="onClick"
+            android:src="@drawable/baseline_person_pin_circle_24">
+
+        </ImageButton>
+
+    </LinearLayout>
+
+    <!--SearchView
         android:id="@+id/mapLocal"
         android:layout_width="336dp"
         android:layout_height="wrap_content"
@@ -26,7 +51,7 @@
         android:queryHint="Search..."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" /-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -44,8 +69,8 @@
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
             android:layout_marginBottom="0dp"
-            android:layout_marginTop="8dp"
-            android:textSize="15sp"
+            android:layout_marginTop="0dp"
+            android:textSize="10sp"
             android:textStyle="bold" />
 
     </LinearLayout>
@@ -74,6 +99,7 @@
         android:layout_marginEnd="14dp"
         android:layout_marginBottom="590dp"
         android:background="@color/white"
+        android:onClick="onClick"
         android:src="@drawable/baseline_accoun" />
 
 

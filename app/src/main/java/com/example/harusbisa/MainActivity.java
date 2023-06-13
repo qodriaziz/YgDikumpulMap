@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         buttonL = findViewById(R.id.button_location);
         textView = findViewById(R.id.text_location);
 
-        mapSearch = findViewById(R.id.mapLocal);
+        //mapSearch = findViewById(R.id.mapLocal);
 
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
