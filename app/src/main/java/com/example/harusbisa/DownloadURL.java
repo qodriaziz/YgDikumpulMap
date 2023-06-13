@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 public class DownloadURL {
@@ -28,18 +29,24 @@ public class DownloadURL {
 
             String line = "";
 
-            while ((line = bufferedReader.readLine())!=null){
+            while ((line = bufferedReader.readLine()) != null) {
                 sb.append(line);
             }
             urlData = sb.toString();
             bufferedReader.close();
-            ;
+
+        }catch (MalformedURLException e){
+            e.printStackTrace();
         } catch (Exception e) {
 
             Log.d("Exception", e.toString());
         } finally {
-            inputStream.close();
-            httpURLConnection.disconnect();
+            if (inputStream != null) {
+                inputStream.close();
+            }
+            if (httpURLConnection != null) {
+                httpURLConnection.disconnect();
+            }
         }
         return urlData;
     }
