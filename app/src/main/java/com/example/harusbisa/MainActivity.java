@@ -13,9 +13,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.SearchView;
 import android.widget.TextView;
@@ -27,6 +29,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     //LocationListener buat buttton curent
     //OnMapReadyCallback untuk search
 
+    ImageButton cariS;
 
     ImageButton buttonL;
     TextView textView;
@@ -57,6 +62,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     SearchView mapSearch;
     GoogleMap mapKU;
 
+    private int proximityRadius = 10000;
+
 
     //@SuppressLint("MissingInflatedId")
     @Override
@@ -65,6 +72,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         setContentView(R.layout.activity_main);
         buttonL = findViewById(R.id.button_location);
         textView = findViewById(R.id.text_location);
+        cariS = findViewById(R.id.cariSearch);
+
+
 
         //mapSearch = findViewById(R.id.mapLocal);
 
@@ -201,6 +211,43 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         }catch (Exception e){
                  e.printStackTrace();
+        }
+    }
+
+    public void onClick(View w){
+        if (w.getId() == R.id.cariSearch){
+            EditText alamatTujuan = findViewById(R.id.isiSearch);
+            String alamat = alamatTujuan.getText().toString();
+            List<Address> addressList = null;
+            MarkerOptions markerOptions = new MarkerOptions();
+
+            if (!TextUtils.isEmpty(alamat)) {
+                Geocoder geo = new Geocoder(this);
+                try {
+                    addressList = geo.getFromLocationName(alamat, 6);
+                    if (addressList !=null){
+                        for (int i = 0; i < addressList.size(); i++){
+                            Address penggunaA = addressList.get(i);
+                            supportMapFragment.getMapAsync(new OnMapReadyCallback() {
+                                @Override
+                                public void onMapReady(@NonNull GoogleMap googleMap) {
+                                    LatLng ling = new LatLng(penggunaA.getLatitude(), penggunaA.getLongitude());
+                                    markerOptions.position(ling);
+                                    markerOptions.title("Hasil Pencarian");
+                                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+                                    googleMap.addMarker(markerOptions);
+                                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(ling));
+                                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(ling, 15));
+                                }
+                            });
+                        }
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }else{
+                Toast.makeText(MainActivity.this, "input text alamat lokasi", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
