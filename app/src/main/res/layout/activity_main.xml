@@ -116,7 +116,8 @@
         >
 
         <ImageButton
-            android:id="@+id/kosHouse"
+            android:id="@+id/hotelK"
+            android:onClick="onClick"
             android:layout_width="49dp"
             android:layout_height="49dp"
             android:layout_marginBottom="0dp"

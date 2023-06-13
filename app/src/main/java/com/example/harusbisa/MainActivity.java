@@ -53,6 +53,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     ImageButton cariS;
 
     ImageButton buttonL;
+
+    ImageButton hotel;
+    ImageButton atm;
+    ImageButton univ;
     TextView textView;
 
     LocationManager locationManager;
@@ -63,9 +67,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     GoogleMap mapKU;
 
     private int proximityRadius = 10000;
+    private double lang, leng;
+
+
 
 
     //@SuppressLint("MissingInflatedId")
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         buttonL = findViewById(R.id.button_location);
         textView = findViewById(R.id.text_location);
         cariS = findViewById(R.id.cariSearch);
+        hotel = findViewById(R.id.hotelK);
 
 
 
@@ -225,7 +234,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 Geocoder geo = new Geocoder(this);
                 try {
                     addressList = geo.getFromLocationName(alamat, 6);
-                    if (addressList !=null){
+                    if (addressList !=null ){
                         for (int i = 0; i < addressList.size(); i++){
                             Address penggunaA = addressList.get(i);
                             supportMapFragment.getMapAsync(new OnMapReadyCallback() {
@@ -249,6 +258,35 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 Toast.makeText(MainActivity.this, "input text alamat lokasi", Toast.LENGTH_SHORT).show();
             }
         }
+        hotel.setOnClickListener(new View.OnClickListener(){
+
+
+
+            @Override
+            public void onClick(View view) {
+                StringBuilder hotelB = new StringBuilder("https://maps.googleapis.com/maps/api/place/nearbysearch/json?");
+                hotelB.append("location=" + lang + "," + leng);
+                hotelB.append("&radius=1000");
+                hotelB.append("&type=mosque");
+                hotelB.append("&sensor=true");
+                hotelB.append("&key=" +"AIzaSyDofSb12YMcial14dK3KACZ5-vGLcDyPYc");
+
+
+                String link = hotelB.toString();
+                Object dataFetch[] = new Object[2];
+                dataFetch[0]= mapKU;
+                dataFetch[1]=link;
+
+                FetchData fetchData = new FetchData();
+                fetchData.execute(dataFetch);
+
+            }
+        });
+
+    }
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+        super.onPointerCaptureChanged(hasCapture);
     }
 
 
